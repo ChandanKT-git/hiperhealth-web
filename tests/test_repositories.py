@@ -6,7 +6,7 @@ import sys
 from pathlib import Path
 from uuid import uuid4
 
-BACKEND_DIR = Path(__file__).parents[1] / 'research' / 'backend'
+BACKEND_DIR = Path(__file__).parents[1] / 'src' / 'research' / 'backend'
 sys.path.insert(0, str(BACKEND_DIR))
 from app.models.repositories import ResearchRepository
 from sqlalchemy.orm import Session
