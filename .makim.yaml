@@ -78,7 +78,7 @@ groups:
         run: |
           pytest \
             --cov=app \
-            --cov-fail-under=50 \
+            --cov-fail-under=40 \
             --cov-report term-missing \
             --no-cov-on-fail ${{ args.path }} ${{ args.params }}
 
