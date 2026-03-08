@@ -1,4 +1,4 @@
-"""hiperhealth-web – web application for hiperhealth."""
+"""hiperhealth-web - web application for hiperhealth."""
 
 
 def __version__() -> str:

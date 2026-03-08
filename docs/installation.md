@@ -18,7 +18,7 @@ can guide you through the process.
 ## From sources
 
 The sources for hiperhealth-web can be downloaded from the
-[Github repo](https://github.com/hiperhealth/hiperhealth-web).
+[GitHub repo](https://github.com/hiperhealth/hiperhealth-web).
 
 You can either clone the public repository:
 
