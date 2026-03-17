@@ -70,18 +70,22 @@ Set `OPENAI_API_KEY` in `.envs/.env` (and keep `src/.envs/.env` in sync).
 
 ## Run the Application
 
-1. Start backend API:
+1. Initialize the database:
 
 ```bash
-cd src/research/backend
-uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
+makim db.setup
 ```
 
-2. Start frontend (new terminal):
+2. Start backend API:
 
 ```bash
-cd src/research/frontend
-npm run dev
+makim research.backend
+```
+
+3. Start frontend (new terminal):
+
+```bash
+makim research.frontend
 ```
 
 Default dev URLs:
