@@ -54,7 +54,7 @@ pip install -e ".[dev]"
 
 ```bash
 cd src/research/frontend
-npm install
+npm ci --ignore-scripts
 cd ../../..
 ```
 
