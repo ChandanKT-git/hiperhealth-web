@@ -31,7 +31,8 @@ def install_frontend_dependencies():
         )
     except (subprocess.CalledProcessError, FileNotFoundError):
         print(
-            "Warning: npm not found - skipping frontend dependency installation."
+            "Warning: npm not found - skipping frontend"
+            " dependency installation."
         )
         return
 
@@ -87,6 +88,7 @@ class CustomBuildPy(build_py):
     """Custom build_py command that installs and builds frontend."""
 
     def run(self):
+        """Install frontend deps and build, then run default build."""
         install_frontend_dependencies()
         build_frontend()
         super().run()
@@ -96,6 +98,7 @@ class CustomDevelop(develop):
     """Custom develop command that installs frontend dependencies."""
 
     def run(self):
+        """Install frontend deps, then run default develop install."""
         install_frontend_dependencies()
         super().run()
 
@@ -104,6 +107,7 @@ class CustomInstall(install):
     """Custom install command that installs frontend dependencies."""
 
     def run(self):
+        """Install frontend deps, then run default install."""
         install_frontend_dependencies()
         super().run()
 
