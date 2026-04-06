@@ -1,6 +1,7 @@
 """Setup script with frontend build integration."""
 
 import subprocess
+
 from pathlib import Path
 
 from setuptools import setup
