@@ -14,7 +14,7 @@ import json
 import logging
 import zipfile
 
-from typing import Any
+from typing import Any, Dict, List
 
 import openpyxl
 import pdfplumber
@@ -24,7 +24,7 @@ logger = logging.getLogger(__name__)
 # --- XLSX Processing ---
 
 
-def process_xlsx(file_bytes: bytes) -> list[dict[str, Any]]:
+def process_xlsx(file_bytes: bytes) -> List[Dict[str, Any]]:
     """Convert an XLSX file to a list of row dictionaries.
 
     Parameters
@@ -34,7 +34,7 @@ def process_xlsx(file_bytes: bytes) -> list[dict[str, Any]]:
 
     Returns
     -------
-    list[dict[str, Any]]
+    List[Dict[str, Any]]
         Each dict maps column headers to cell values.
 
     Raises
@@ -61,9 +61,9 @@ def process_xlsx(file_bytes: bytes) -> list[dict[str, Any]]:
         str(h).strip() if h is not None else f'col_{i}'
         for i, h in enumerate(rows[0])
     ]
-    result: list[dict[str, Any]] = []
+    result: List[Dict[str, Any]] = []
     for row in rows[1:]:
-        row_dict: dict[str, Any] = {}
+        row_dict: Dict[str, Any] = {}
         for header, value in zip(headers, row):
             row_dict[header] = value
         result.append(row_dict)
@@ -73,7 +73,7 @@ def process_xlsx(file_bytes: bytes) -> list[dict[str, Any]]:
 # --- PDF Processing ---
 
 
-def process_pdf(file_bytes: bytes) -> list[dict[str, Any]]:
+def process_pdf(file_bytes: bytes) -> List[Dict[str, Any]]:
     """Extract tabular data from a PDF file.
 
     Parameters
@@ -83,7 +83,7 @@ def process_pdf(file_bytes: bytes) -> list[dict[str, Any]]:
 
     Returns
     -------
-    list[dict[str, Any]]
+    List[Dict[str, Any]]
         Extracted rows from the first table found across pages.
 
     Raises
@@ -91,7 +91,7 @@ def process_pdf(file_bytes: bytes) -> list[dict[str, Any]]:
     ValueError
         If no tables are found in the PDF.
     """
-    all_rows: list[dict[str, Any]] = []
+    all_rows: List[Dict[str, Any]] = []
 
     with pdfplumber.open(io.BytesIO(file_bytes)) as pdf:
         for page in pdf.pages:
@@ -104,7 +104,7 @@ def process_pdf(file_bytes: bytes) -> list[dict[str, Any]]:
                     for i, h in enumerate(table[0])
                 ]
                 for row in table[1:]:
-                    row_dict: dict[str, Any] = {}
+                    row_dict: Dict[str, Any] = {}
                     for header, value in zip(headers, row):
                         row_dict[header] = (
                             value.strip() if isinstance(value, str) else value
@@ -125,7 +125,7 @@ def process_pdf(file_bytes: bytes) -> list[dict[str, Any]]:
 _SUPPORTED_INNER = {'.csv', '.json', '.xlsx'}
 
 
-def process_zip(file_bytes: bytes) -> list[dict[str, Any]]:
+def process_zip(file_bytes: bytes) -> List[Dict[str, Any]]:
     """Extract and process wearable data files from a ZIP archive.
 
     Parameters
@@ -135,7 +135,7 @@ def process_zip(file_bytes: bytes) -> list[dict[str, Any]]:
 
     Returns
     -------
-    list[dict[str, Any]]
+    List[Dict[str, Any]]
         Combined rows from all supported files found in the archive.
 
     Raises
@@ -143,7 +143,7 @@ def process_zip(file_bytes: bytes) -> list[dict[str, Any]]:
     ValueError
         If the archive contains no supported files.
     """
-    combined: list[dict[str, Any]] = []
+    combined: List[Dict[str, Any]] = []
 
     with zipfile.ZipFile(io.BytesIO(file_bytes)) as zf:
         for info in zf.infolist():
@@ -183,14 +183,14 @@ def _get_suffix(filename: str) -> str:
     return filename[dot:].lower() if dot != -1 else ''
 
 
-def _csv_bytes_to_dicts(data: bytes) -> list[dict[str, Any]]:
+def _csv_bytes_to_dicts(data: bytes) -> List[Dict[str, Any]]:
     """Parse CSV bytes into a list of dictionaries."""
     text = data.decode('utf-8')
     reader = csv.DictReader(io.StringIO(text))
     return list(reader)
 
 
-def _json_bytes_to_dicts(data: bytes) -> list[dict[str, Any]]:
+def _json_bytes_to_dicts(data: bytes) -> List[Dict[str, Any]]:
     """Parse JSON bytes into a list of dictionaries."""
     parsed = json.loads(data.decode('utf-8'))
     if isinstance(parsed, list):
