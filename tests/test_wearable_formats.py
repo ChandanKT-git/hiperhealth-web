@@ -7,7 +7,7 @@ from app.wearable_formats import process_pdf, process_xlsx, process_zip
 DATA_DIR = Path(__file__).parent / 'data' / 'wearable'
 
 
-def test_process_xlsx():
+def test_process_xlsx() -> None:
     """Verify XLSX files are parsed into row dictionaries."""
     file_path = DATA_DIR / 'sample_data.xlsx'
     with open(file_path, 'rb') as f:
@@ -20,7 +20,7 @@ def test_process_xlsx():
     assert data[1]['heart_rate'] == 85
 
 
-def test_process_pdf():
+def test_process_pdf() -> None:
     """Verify PDF tables are extracted into row dictionaries."""
     file_path = DATA_DIR / 'sample_report.pdf'
     with open(file_path, 'rb') as f:
@@ -38,7 +38,7 @@ def test_process_pdf():
     assert found, 'Expected data not found in PDF output'
 
 
-def test_process_zip():
+def test_process_zip() -> None:
     """Verify ZIP archives are unpacked and inner files parsed."""
     file_path = DATA_DIR / 'sample_export.zip'
     with open(file_path, 'rb') as f:
